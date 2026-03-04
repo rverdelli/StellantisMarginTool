@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stellantis Margin Analysis Tool</title>
+  <title>AI Planning Assistant - Stellantis Margin Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -12,797 +13,493 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f2f5;
-      color: #333;
-      display: flex;
-      flex-direction: column;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #e8ecf1;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    /* ── Main Container ── */
+    .container {
+      width: 100%;
+      max-width: 920px;
+      background: #f0f3f7;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
     }
 
     /* ── Header ── */
     .header {
-      background-color: #1a1f36;
-      color: #fff;
+      background: #fff;
+      padding: 24px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
-      height: 56px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      border-bottom: 1px solid #e5e9ef;
     }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .header-logo {
-      font-size: 20px;
+    .header-text h1 {
+      font-size: 22px;
       font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #fff;
+      color: #1e293b;
+      margin-bottom: 4px;
     }
 
-    .header-divider {
-      width: 1px;
-      height: 28px;
-      background-color: rgba(255, 255, 255, 0.25);
-    }
-
-    .header-title {
-      font-size: 15px;
+    .header-text p {
+      font-size: 14px;
+      color: #8494a7;
       font-weight: 400;
-      color: rgba(255, 255, 255, 0.85);
     }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .header-icon {
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      opacity: 0.7;
-      transition: opacity 0.2s;
-    }
-
-    .header-icon:hover {
-      opacity: 1;
-    }
-
-    .notification-badge {
+    .header-robot {
+      width: 72px;
+      height: 72px;
       position: relative;
     }
 
-    .notification-badge::after {
-      content: '';
+    .robot-body {
+      width: 56px;
+      height: 48px;
+      background: #5b7a9d;
+      border-radius: 12px;
       position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 8px;
-      height: 8px;
-      background: #e74c3c;
-      border-radius: 50%;
-      border: 1.5px solid #1a1f36;
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      bottom: 0;
+      right: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
+      gap: 8px;
     }
 
-    .user-name {
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.85);
-    }
-
-    /* ── Layout ── */
-    .layout {
-      display: flex;
-      margin-top: 56px;
-      min-height: calc(100vh - 56px);
-    }
-
-    /* ── Sidebar ── */
-    .sidebar {
-      width: 220px;
-      background-color: #243049;
-      color: #fff;
-      padding-top: 16px;
-      position: fixed;
-      top: 56px;
-      bottom: 0;
-      left: 0;
-      overflow-y: auto;
-      z-index: 90;
-    }
-
-    .sidebar-section {
-      padding: 8px 0;
-    }
-
-    .sidebar-section-title {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: rgba(255, 255, 255, 0.4);
-      padding: 8px 20px;
-      margin-top: 8px;
-    }
-
-    .sidebar-item {
+    .robot-head {
+      width: 48px;
+      height: 36px;
+      background: #6b8db5;
+      border-radius: 10px;
+      position: absolute;
+      top: 2px;
+      right: 12px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      border-left: 3px solid transparent;
+      justify-content: center;
+      gap: 6px;
+      border: 2px solid #7ea3c7;
     }
 
-    .sidebar-item:hover {
-      background-color: rgba(255, 255, 255, 0.08);
-      color: #fff;
+    .robot-eye {
+      width: 10px;
+      height: 10px;
+      background: #c5f0fc;
+      border-radius: 50%;
+      box-shadow: 0 0 4px rgba(197, 240, 252, 0.6);
     }
 
-    .sidebar-item.active {
-      background-color: rgba(255, 255, 255, 0.12);
-      color: #fff;
-      border-left: 3px solid #4a90d9;
+    .robot-antenna {
+      width: 4px;
+      height: 10px;
+      background: #7ea3c7;
+      border-radius: 2px;
+      position: absolute;
+      top: -8px;
+      right: 32px;
     }
 
-    .sidebar-item svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      opacity: 0.7;
+    .robot-antenna::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #93c5e8;
+      border-radius: 50%;
+      position: absolute;
+      top: -6px;
+      left: -2px;
     }
 
-    .sidebar-item.active svg {
-      opacity: 1;
+    /* ── Chat Area ── */
+    .chat-area {
+      padding: 24px 32px;
     }
 
-    /* ── Main Content ── */
-    .main {
-      margin-left: 220px;
-      flex: 1;
-      padding: 24px;
-    }
-
-    /* ── Page Header ── */
-    .page-header {
+    /* User Message */
+    .user-message {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .user-bubble {
+      background: #4a76a8;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 18px 18px 18px 4px;
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 75%;
+    }
+
+    .message-time {
+      text-align: right;
+      font-size: 12px;
+      color: #9aa8b8;
+      margin-bottom: 16px;
+      padding-right: 4px;
+    }
+
+    /* AI Response */
+    .ai-message {
+      display: flex;
+      justify-content: flex-start;
       margin-bottom: 24px;
     }
 
-    .page-header h1 {
-      font-size: 22px;
-      font-weight: 600;
-      color: #1a1f36;
+    .ai-bubble {
+      background: #fff;
+      color: #3d4f5f;
+      padding: 16px 20px;
+      border-radius: 4px 18px 18px 18px;
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 80%;
+      border: 1px solid #e5e9ef;
     }
 
-    .page-header-actions {
+    /* ── Suggested Adjustments ── */
+    .adjustments-section {
+      padding: 0 32px 24px;
+    }
+
+    .adjustments-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #3d4f5f;
+      margin-bottom: 16px;
+    }
+
+    .adjustments-divider {
+      height: 1px;
+      background: #dde2e8;
+      margin-bottom: 20px;
+    }
+
+    .adjustments-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .adjustment-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e0e5ec;
+    }
+
+    .adjustment-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #2c5282;
+      margin-bottom: 2px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .adjustment-card-subtitle {
+      font-size: 13px;
+      color: #6b7c93;
+      margin-bottom: 20px;
+    }
+
+    .adjustment-values {
+      margin-bottom: 20px;
+    }
+
+    .adjustment-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #3d4f5f;
+    }
+
+    .adjustment-row-label {
+      color: #6b7c93;
+      min-width: 60px;
+    }
+
+    .adjustment-row-value {
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .adjustment-row-change {
+      color: #22863a;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .adjustment-values-divider {
+      height: 1px;
+      background: #e8ecf0;
+      margin: 14px 0;
+    }
+
+    .adjustment-dropdown {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #d0d7e0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #1e293b;
+      background: #fff;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7c93' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 16px;
+    }
+
+    .adjustment-dropdown:focus {
+      outline: none;
+      border-color: #4a76a8;
+    }
+
+    /* ── Action Buttons ── */
+    .actions-divider {
+      height: 1px;
+      background: #dde2e8;
+      margin: 0 32px 20px;
+    }
+
+    .actions {
       display: flex;
       gap: 12px;
+      padding: 0 32px 24px;
     }
 
     .btn {
-      padding: 8px 16px;
-      border-radius: 6px;
+      padding: 12px 24px;
+      border-radius: 8px;
       border: none;
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .btn-primary {
-      background-color: #4a90d9;
+      background: #4a76a8;
       color: #fff;
     }
 
     .btn-primary:hover {
-      background-color: #3a7bc8;
+      background: #3d6591;
     }
 
-    .btn-outline {
-      background-color: #fff;
-      color: #555;
-      border: 1px solid #ddd;
+    .btn-secondary {
+      background: #e8ecf1;
+      color: #4a5568;
     }
 
-    .btn-outline:hover {
-      background-color: #f5f5f5;
+    .btn-secondary:hover {
+      background: #dde2e8;
     }
 
-    /* ── Filter Bar ── */
-    .filter-bar {
+    /* ── Chat Input ── */
+    .chat-input-area {
+      padding: 0 32px 28px;
+    }
+
+    .chat-input-wrapper {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-
-    .filter-select {
-      padding: 7px 12px;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-      background: #fff;
-      font-size: 13px;
-      color: #555;
-      cursor: pointer;
-      min-width: 140px;
-    }
-
-    .filter-select:focus {
-      outline: none;
-      border-color: #4a90d9;
-    }
-
-    /* ── KPI Cards ── */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .kpi-card {
       background: #fff;
       border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-      position: relative;
+      border: 1px solid #d0d7e0;
       overflow: hidden;
     }
 
-    .kpi-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
+    .chat-input {
+      flex: 1;
+      padding: 14px 18px;
+      border: none;
+      font-size: 14px;
+      color: #1e293b;
+      background: transparent;
     }
 
-    .kpi-card:nth-child(1)::before { background: #4a90d9; }
-    .kpi-card:nth-child(2)::before { background: #2ecc71; }
-    .kpi-card:nth-child(3)::before { background: #f39c12; }
-    .kpi-card:nth-child(4)::before { background: #e74c3c; }
-
-    .kpi-label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #888;
-      margin-bottom: 8px;
+    .chat-input::placeholder {
+      color: #a0aec0;
     }
 
-    .kpi-value {
-      font-size: 26px;
-      font-weight: 700;
-      color: #1a1f36;
-      margin-bottom: 6px;
-    }
-
-    .kpi-change {
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .kpi-change.positive { color: #2ecc71; }
-    .kpi-change.negative { color: #e74c3c; }
-
-    /* ── Data Table ── */
-    .table-container {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-    }
-
-    .table-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .table-header h2 {
-      font-size: 16px;
-      font-weight: 600;
-      color: #1a1f36;
-    }
-
-    .table-search {
-      padding: 7px 12px;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-      font-size: 13px;
-      width: 220px;
-    }
-
-    .table-search:focus {
+    .chat-input:focus {
       outline: none;
-      border-color: #4a90d9;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    thead th {
-      text-align: left;
-      padding: 12px 16px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #888;
-      font-weight: 600;
-      background-color: #fafbfc;
-      border-bottom: 1px solid #eee;
-      white-space: nowrap;
-    }
-
-    tbody td {
-      padding: 12px 16px;
-      font-size: 13px;
-      border-bottom: 1px solid #f0f0f0;
-      color: #444;
-    }
-
-    tbody tr:hover {
-      background-color: #f8f9fb;
-    }
-
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    .model-name {
-      font-weight: 600;
-      color: #1a1f36;
-    }
-
-    .brand-badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    .brand-jeep { background: #e8f5e9; color: #2e7d32; }
-    .brand-ram { background: #e3f2fd; color: #1565c0; }
-    .brand-dodge { background: #fce4ec; color: #c62828; }
-    .brand-chrysler { background: #f3e5f5; color: #6a1b9a; }
-    .brand-fiat { background: #fff3e0; color: #e65100; }
-    .brand-peugeot { background: #e0f2f1; color: #00695c; }
-    .brand-citroen { background: #fbe9e7; color: #bf360c; }
-    .brand-opel { background: #ede7f6; color: #4527a0; }
-
-    .margin-positive {
-      color: #2ecc71;
-      font-weight: 600;
-    }
-
-    .margin-negative {
-      color: #e74c3c;
-      font-weight: 600;
-    }
-
-    .margin-neutral {
-      color: #f39c12;
-      font-weight: 600;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 6px;
-    }
-
-    .status-dot.green { background-color: #2ecc71; }
-    .status-dot.yellow { background-color: #f39c12; }
-    .status-dot.red { background-color: #e74c3c; }
-
-    /* ── Table Footer ── */
-    .table-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 20px;
-      border-top: 1px solid #eee;
-      font-size: 13px;
-      color: #888;
-    }
-
-    .pagination {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .pagination button {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-      background: #fff;
-      cursor: pointer;
-      font-size: 13px;
-      color: #555;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .pagination button:hover {
-      background-color: #f5f5f5;
-    }
-
-    .pagination button.active {
-      background-color: #4a90d9;
+    .chat-send-btn {
+      padding: 10px 22px;
+      margin: 6px;
+      border-radius: 8px;
+      border: none;
+      background: #4a76a8;
       color: #fff;
-      border-color: #4a90d9;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .chat-send-btn:hover {
+      background: #3d6591;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="header-left">
-      <div class="header-logo">Stellantis</div>
-      <div class="header-divider"></div>
-      <div class="header-title">Margin Analysis Tool</div>
-    </div>
-    <div class="header-right">
-      <div class="notification-badge">
-        <svg class="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-        </svg>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-text">
+        <h1>AI Planning Assistant</h1>
+        <p>Margin Replanning &amp; What-If Analysis</p>
       </div>
-      <svg class="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-      <div class="user-profile">
-        <div class="user-avatar">MR</div>
-        <span class="user-name">M. Rossi</span>
+      <div class="header-robot">
+        <div class="robot-antenna"></div>
+        <div class="robot-head">
+          <div class="robot-eye"></div>
+          <div class="robot-eye"></div>
+        </div>
+        <div class="robot-body"></div>
       </div>
     </div>
-  </header>
 
-  <div class="layout">
+    <!-- Chat Area -->
+    <div class="chat-area">
+      <!-- User message -->
+      <div class="user-message">
+        <div class="user-bubble">Increase Q4 2026 hybrid sales volumes for Alfa Romeo Junior and Tonale.</div>
+      </div>
+      <div class="message-time">Today, 9:35 AM</div>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-section">
-        <div class="sidebar-section-title">Main</div>
-        <a class="sidebar-item active" href="#">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-          Dashboard
-        </a>
-        <a class="sidebar-item" href="#">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-          Margin Analysis
-        </a>
-        <a class="sidebar-item" href="#">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-          Trends
-        </a>
-        <a class="sidebar-item" href="#">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l3 9a5.002 5.002 0 01-6.001 0M18 7l-3 9m0-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
-          Comparisons
-        </a>
+      <!-- AI response -->
+      <div class="ai-message">
+        <div class="ai-bubble">Understood. To boost Q4 2026 hybrid sales for Alfa Romeo Junior and Tonale, I recommend adjusting the following:</div>
       </div>
-      <div class="sidebar-section">
-        <div class="sidebar-section-title">Data</div>
-        <a class="sidebar-item" href="#">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
-          Models Database
-        </a>
-        <a class="sidebar-item" href="#">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/></svg>
-          Import Data
-        </a>
-        <a class="sidebar-item" href="#">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          Reports
-        </a>
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-section-title">Settings</div>
-        <a class="sidebar-item" href="#">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
-          Configuration
-        </a>
-        <a class="sidebar-item" href="#">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-          User Management
-        </a>
-      </div>
-    </aside>
+    </div>
 
-    <!-- Main Content -->
-    <main class="main">
-      <!-- Page Header -->
-      <div class="page-header">
-        <h1>Dashboard Overview</h1>
-        <div class="page-header-actions">
-          <button class="btn btn-outline">
-            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            Export
-          </button>
-          <button class="btn btn-primary">
-            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-            Refresh Data
-          </button>
-        </div>
-      </div>
+    <!-- Suggested Adjustments -->
+    <div class="adjustments-section">
+      <div class="adjustments-title">Suggested Adjustments</div>
+      <div class="adjustments-divider"></div>
 
-      <!-- Filter Bar -->
-      <div class="filter-bar">
-        <select class="filter-select">
-          <option>All Brands</option>
-          <option>Jeep</option>
-          <option>RAM</option>
-          <option>Dodge</option>
-          <option>Chrysler</option>
-          <option>Fiat</option>
-          <option>Peugeot</option>
-          <option>Citro&euml;n</option>
-          <option>Opel</option>
-        </select>
-        <select class="filter-select">
-          <option>All Regions</option>
-          <option>North America</option>
-          <option>Europe</option>
-          <option>South America</option>
-          <option>Asia Pacific</option>
-        </select>
-        <select class="filter-select">
-          <option>Q4 2025</option>
-          <option>Q3 2025</option>
-          <option>Q2 2025</option>
-          <option>Q1 2025</option>
-        </select>
-        <select class="filter-select">
-          <option>All Segments</option>
-          <option>SUV</option>
-          <option>Sedan</option>
-          <option>Truck</option>
-          <option>Van</option>
-          <option>Compact</option>
-        </select>
-      </div>
+      <div class="adjustments-grid">
+        <!-- Card 1: Volumes & Rappel -->
+        <div class="adjustment-card">
+          <div class="adjustment-card-title">Volumes &amp; Rappel</div>
+          <div class="adjustment-card-subtitle">Dealer Private Offline</div>
 
-      <!-- KPI Cards -->
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-label">Total Revenue</div>
-          <div class="kpi-value">&euro;42.3B</div>
-          <div class="kpi-change positive">
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-            +3.2% vs Q3
+          <div class="adjustment-values">
+            <div class="adjustment-row">
+              <span class="adjustment-row-label">Current:</span>
+              <span class="adjustment-row-value">3000 Units</span>
+            </div>
+            <div class="adjustment-row">
+              <span class="adjustment-row-label">New:</span>
+              <span class="adjustment-row-value">4000 Units</span>
+              <span class="adjustment-row-change">(+1000)</span>
+            </div>
           </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Avg. Gross Margin</div>
-          <div class="kpi-value">18.7%</div>
-          <div class="kpi-change positive">
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-            +0.8pp vs Q3
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Units Sold</div>
-          <div class="kpi-value">1.52M</div>
-          <div class="kpi-change negative">
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-            -1.4% vs Q3
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Models Below Target</div>
-          <div class="kpi-value">12</div>
-          <div class="kpi-change negative">
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-            +3 vs Q3
-          </div>
-        </div>
-      </div>
 
-      <!-- Data Table -->
-      <div class="table-container">
-        <div class="table-header">
-          <h2>Vehicle Model Margins</h2>
-          <input type="text" class="table-search" placeholder="Search models...">
+          <div class="adjustment-values-divider"></div>
+
+          <select class="adjustment-dropdown">
+            <option>4000 Units</option>
+            <option>3500 Units</option>
+            <option>4500 Units</option>
+            <option>5000 Units</option>
+          </select>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Model</th>
-              <th>Brand</th>
-              <th>Segment</th>
-              <th>Region</th>
-              <th>Revenue</th>
-              <th>COGS</th>
-              <th>Gross Margin</th>
-              <th>Target</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="model-name">Grand Cherokee L</td>
-              <td><span class="brand-badge brand-jeep">Jeep</span></td>
-              <td>SUV</td>
-              <td>North America</td>
-              <td>&euro;5.8B</td>
-              <td>&euro;4.3B</td>
-              <td class="margin-positive">25.9%</td>
-              <td>22.0%</td>
-              <td><span class="status-dot green"></span>Above</td>
-            </tr>
-            <tr>
-              <td class="model-name">RAM 1500</td>
-              <td><span class="brand-badge brand-ram">RAM</span></td>
-              <td>Truck</td>
-              <td>North America</td>
-              <td>&euro;8.2B</td>
-              <td>&euro;6.1B</td>
-              <td class="margin-positive">25.6%</td>
-              <td>23.0%</td>
-              <td><span class="status-dot green"></span>Above</td>
-            </tr>
-            <tr>
-              <td class="model-name">Wrangler</td>
-              <td><span class="brand-badge brand-jeep">Jeep</span></td>
-              <td>SUV</td>
-              <td>North America</td>
-              <td>&euro;4.1B</td>
-              <td>&euro;3.2B</td>
-              <td class="margin-positive">22.0%</td>
-              <td>20.0%</td>
-              <td><span class="status-dot green"></span>Above</td>
-            </tr>
-            <tr>
-              <td class="model-name">Peugeot 3008</td>
-              <td><span class="brand-badge brand-peugeot">Peugeot</span></td>
-              <td>SUV</td>
-              <td>Europe</td>
-              <td>&euro;3.6B</td>
-              <td>&euro;2.9B</td>
-              <td class="margin-positive">19.4%</td>
-              <td>18.0%</td>
-              <td><span class="status-dot green"></span>Above</td>
-            </tr>
-            <tr>
-              <td class="model-name">Opel Corsa</td>
-              <td><span class="brand-badge brand-opel">Opel</span></td>
-              <td>Compact</td>
-              <td>Europe</td>
-              <td>&euro;2.1B</td>
-              <td>&euro;1.8B</td>
-              <td class="margin-neutral">14.3%</td>
-              <td>15.0%</td>
-              <td><span class="status-dot yellow"></span>Near</td>
-            </tr>
-            <tr>
-              <td class="model-name">Citro&euml;n C3</td>
-              <td><span class="brand-badge brand-citroen">Citro&euml;n</span></td>
-              <td>Compact</td>
-              <td>Europe</td>
-              <td>&euro;1.8B</td>
-              <td>&euro;1.6B</td>
-              <td class="margin-neutral">11.1%</td>
-              <td>13.0%</td>
-              <td><span class="status-dot yellow"></span>Near</td>
-            </tr>
-            <tr>
-              <td class="model-name">Fiat 500e</td>
-              <td><span class="brand-badge brand-fiat">Fiat</span></td>
-              <td>Compact</td>
-              <td>Europe</td>
-              <td>&euro;1.2B</td>
-              <td>&euro;1.1B</td>
-              <td class="margin-negative">8.3%</td>
-              <td>14.0%</td>
-              <td><span class="status-dot red"></span>Below</td>
-            </tr>
-            <tr>
-              <td class="model-name">Dodge Hornet</td>
-              <td><span class="brand-badge brand-dodge">Dodge</span></td>
-              <td>SUV</td>
-              <td>North America</td>
-              <td>&euro;1.4B</td>
-              <td>&euro;1.2B</td>
-              <td class="margin-negative">14.3%</td>
-              <td>17.0%</td>
-              <td><span class="status-dot red"></span>Below</td>
-            </tr>
-            <tr>
-              <td class="model-name">Chrysler Pacifica</td>
-              <td><span class="brand-badge brand-chrysler">Chrysler</span></td>
-              <td>Van</td>
-              <td>North America</td>
-              <td>&euro;2.4B</td>
-              <td>&euro;2.0B</td>
-              <td class="margin-neutral">16.7%</td>
-              <td>17.0%</td>
-              <td><span class="status-dot yellow"></span>Near</td>
-            </tr>
-            <tr>
-              <td class="model-name">Peugeot 208</td>
-              <td><span class="brand-badge brand-peugeot">Peugeot</span></td>
-              <td>Compact</td>
-              <td>Europe</td>
-              <td>&euro;2.8B</td>
-              <td>&euro;2.3B</td>
-              <td class="margin-positive">17.9%</td>
-              <td>16.0%</td>
-              <td><span class="status-dot green"></span>Above</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="table-footer">
-          <span>Showing 1-10 of 47 models</span>
-          <div class="pagination">
-            <button>&laquo;</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>&raquo;</button>
+
+        <!-- Card 2: LTR Discounts -->
+        <div class="adjustment-card">
+          <div class="adjustment-card-title">LTR Discounts</div>
+          <div class="adjustment-card-subtitle">Dealer LTR &amp; Fleet</div>
+
+          <div class="adjustment-values">
+            <div class="adjustment-row">
+              <span class="adjustment-row-label">Current:</span>
+              <span class="adjustment-row-value">&nbsp;8%</span>
+            </div>
+            <div class="adjustment-row">
+              <span class="adjustment-row-label">New:</span>
+              <span class="adjustment-row-value">&nbsp;12 %</span>
+              <span class="adjustment-row-change">&nbsp;(+44%)</span>
+            </div>
           </div>
+
+          <div class="adjustment-values-divider"></div>
+
+          <select class="adjustment-dropdown">
+            <option>12 %</option>
+            <option>10 %</option>
+            <option>14 %</option>
+            <option>16 %</option>
+          </select>
+        </div>
+
+        <!-- Card 3: Promo & Financing -->
+        <div class="adjustment-card">
+          <div class="adjustment-card-title">Promo &amp; Financing</div>
+          <div class="adjustment-card-subtitle">Dealer Private &amp; Online</div>
+
+          <div class="adjustment-values">
+            <div class="adjustment-row">
+              <span class="adjustment-row-label">Current:</span>
+              <span class="adjustment-row-value">&euro;1,500 Incentive</span>
+            </div>
+            <div class="adjustment-row">
+              <span class="adjustment-row-label">New:</span>
+              <span class="adjustment-row-value">&euro;2,000 Incentive</span>
+              <span class="adjustment-row-change">(+500)</span>
+            </div>
+          </div>
+
+          <div class="adjustment-values-divider"></div>
+
+          <select class="adjustment-dropdown">
+            <option>&euro; 2000 Incentive</option>
+            <option>&euro; 1750 Incentive</option>
+            <option>&euro; 2250 Incentive</option>
+            <option>&euro; 2500 Incentive</option>
+          </select>
         </div>
       </div>
-    </main>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-divider"></div>
+    <div class="actions">
+      <button class="btn btn-primary">Apply Changes</button>
+      <button class="btn btn-secondary">Refine Suggestions</button>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="chat-input-area">
+      <div class="chat-input-wrapper">
+        <input type="text" class="chat-input" placeholder="Type your request...">
+        <button class="chat-send-btn">Send</button>
+      </div>
+    </div>
+
   </div>
 
 </body>
